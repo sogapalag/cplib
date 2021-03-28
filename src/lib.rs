@@ -1,12 +1,6 @@
 #![allow(dead_code)]
-mod ds;
-mod io;
-mod prelude;
-
-#[cfg(test)]
-mod tests {
-    #[test]
-    fn it_works() {
-        assert_eq!(2 + 2, 4);
-    }
-}
+#[macro_use]
+pub mod io;
+mod algebra;
+pub mod ds;
+pub mod prelude;

@@ -1,4 +1,4 @@
-use crate::prelude::algebra::*;
+use super::*;
 
 pub struct Xor;
 pub struct Or;

@@ -1,7 +1,7 @@
-use crate::prelude::algebra::*;
+use crate::algebra::{Group, Monoid};
 use std::marker::PhantomData;
 
-struct Fenwick<T, M> {
+pub struct Fenwick<T, M> {
     n: usize,
     v: Vec<T>,
     _m: PhantomData<M>,
@@ -51,9 +51,10 @@ where
 }
 
 #[cfg(test)]
+#[allow(unused_imports)]
 mod test {
     use super::*;
-    use crate::prelude::{add::*, algebra::*, bit::*, cmp::*};
+    use crate::algebra::*;
     #[test]
     fn test_basic() {
         let mut fen = Fenwick::<i32, Add>::new(100);

@@ -1,5 +1,5 @@
 // Dsu without path compressing, to support roll back.
-struct DsuRollBack {
+pub struct DsuRollBack {
     p: Vec<usize>,
     r: Vec<usize>,
     h: Vec<[usize; 2]>,
@@ -13,14 +13,14 @@ impl DsuRollBack {
             h: vec![],
         }
     }
-    fn find(&self, mut x: usize) -> usize {
+    pub fn find(&self, mut x: usize) -> usize {
         while x != self.p[x] {
             x = self.p[x];
         }
         x
     }
     // ret: success(disjoint)?
-    fn join(&mut self, mut x: usize, mut y: usize) -> bool {
+    pub fn join(&mut self, mut x: usize, mut y: usize) -> bool {
         x = self.find(x);
         y = self.find(y);
         if x == y {
@@ -34,14 +34,14 @@ impl DsuRollBack {
         self.r[x] += self.r[y];
         true
     }
-    fn roll_back(&mut self) {
+    pub fn roll_back(&mut self) {
         if let Some([x, y]) = self.h.pop() {
             self.r[x] -= self.r[y];
             self.p[y] = y;
         }
     }
 
-    fn check(&mut self, x: usize, y: usize) -> bool {
+    pub fn check(&mut self, x: usize, y: usize) -> bool {
         self.find(x) == self.find(y)
     }
 }

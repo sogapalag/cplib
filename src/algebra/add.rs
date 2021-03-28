@@ -1,4 +1,4 @@
-use crate::prelude::algebra::*;
+use super::*;
 
 pub struct Add;
 
@@ -15,9 +15,9 @@ group_add!(
 );
 
 #[cfg(test)]
+#[allow(unused_imports)]
 mod tests {
     use super::*;
-    use crate::prelude::algebra::*;
 
     #[test]
     fn test_add() {}

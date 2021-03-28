@@ -1,14 +1,16 @@
 /// Group-Like
 
+// implicitly imply associativity, but not necessarily be commutative.
 pub trait Monoid<T> {
     const ID: Self;
     fn mul(x: Self, y: Self) -> Self;
 }
+// if with commutativity => Abelian Group
 pub trait Group<T>: Monoid<T> {
     fn inv(x: Self) -> Self;
 }
 
-macro_rules! monoid {
+t macro_rules! monoid {
     (impl $a:ident for $t:ty, $e:expr, |$x:ident, $y:ident| $b:expr) => {
         impl Monoid<$a> for $t {
             const ID: Self = $e;

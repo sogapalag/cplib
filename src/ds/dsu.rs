@@ -1,4 +1,4 @@
-struct Dsu {
+pub struct Dsu {
     p: Vec<usize>,
     r: Vec<usize>,
 }
@@ -10,14 +10,14 @@ impl Dsu {
             r: vec![1; n],
         }
     }
-    fn find(&mut self, x: usize) -> usize {
+    pub fn find(&mut self, x: usize) -> usize {
         if self.p[x] != x {
             self.p[x] = self.find(self.p[x]);
         }
         self.p[x]
     }
     // ret: success(disjoint)?
-    fn join(&mut self, mut x: usize, mut y: usize) -> bool {
+    pub fn join(&mut self, mut x: usize, mut y: usize) -> bool {
         x = self.find(x);
         y = self.find(y);
         if x == y {
@@ -30,7 +30,7 @@ impl Dsu {
         self.r[x] += self.r[y];
         true
     }
-    fn check(&mut self, x: usize, y: usize) -> bool {
+    pub fn check(&mut self, x: usize, y: usize) -> bool {
         self.find(x) == self.find(y)
     }
 }
