@@ -10,7 +10,7 @@ pub trait Group<T>: Monoid<T> {
     fn inv(x: Self) -> Self;
 }
 
-t macro_rules! monoid {
+macro_rules! monoid {
     (impl $a:ident for $t:ty, $e:expr, |$x:ident, $y:ident| $b:expr) => {
         impl Monoid<$a> for $t {
             const ID: Self = $e;
