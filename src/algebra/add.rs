@@ -1,5 +1,6 @@
 use super::*;
 
+/// A empty struct for trait generic.
 pub struct Add;
 
 macro_rules! group_add {
@@ -13,12 +14,3 @@ group_add!(
     f32, 0.0;
     f64, 0.0;
 );
-
-#[cfg(test)]
-#[allow(unused_imports)]
-mod tests {
-    use super::*;
-
-    #[test]
-    fn test_add() {}
-}

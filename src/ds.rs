@@ -1,3 +1,5 @@
+//! Data structures.
+
 mod dsu;
 mod dsu_roll_back;
 mod fenwick;

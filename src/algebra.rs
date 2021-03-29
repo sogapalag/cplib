@@ -1,11 +1,14 @@
-/// Group-Like
+//! Algebraic structural traits.
 
-// implicitly imply associativity, but not necessarily be commutative.
+/// Implicitly imply associativity, but not necessarily be commutative.
+///
+/// Since in most cases, commutativity is out of consideration.
+/// But you have to ensure commutativity when needed.
 pub trait Monoid<T> {
     const ID: Self;
-    fn mul(x: Self, y: Self) -> Self;
+    fn binop(x: Self, y: Self) -> Self;
 }
-// if with commutativity => Abelian Group
+/// If with commutativity => Abelian Group
 pub trait Group<T>: Monoid<T> {
     fn inv(x: Self) -> Self;
 }
@@ -15,7 +18,7 @@ macro_rules! monoid {
         impl Monoid<$a> for $t {
             const ID: Self = $e;
             #[inline]
-            fn mul($x: Self, $y: Self) -> Self {
+            fn binop($x: Self, $y: Self) -> Self {
                 $b
             }
         }
@@ -33,3 +36,10 @@ macro_rules! group {
         }
     };
 }
+mod add;
+mod bit;
+mod cmp;
+
+pub use add::Add;
+pub use bit::{And, Or, Xor};
+pub use cmp::{Max, Min};

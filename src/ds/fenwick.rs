@@ -1,17 +1,23 @@
 use crate::algebra::{Group, Monoid};
 use std::marker::PhantomData;
+use std::ops::Range;
 
+/// A generalized version Fenwick Tree, also called Binary Indexed Tree(BIT).
+///
+/// API is 0-based, while inner implementation is 1-based.
+/// You can use it as having array `a[0..n]`.
+#[derive(Clone, Debug)]
 pub struct Fenwick<T, M> {
     n: usize,
     v: Vec<T>,
     _m: PhantomData<M>,
 }
 
-// 1-based
 impl<T, M> Fenwick<T, M>
 where
     T: Copy + Monoid<M>,
 {
+    /// Creates default view `a[0..n]`, filled with Monoid Identity.
     pub fn new(n: usize) -> Self {
         Self {
             n,
@@ -19,68 +25,62 @@ where
             _m: PhantomData,
         }
     }
-    pub fn add(&mut self, i: usize, val: T) {
-        debug_assert!(i != 0);
-        let mut i = i;
+    /// Behave as `a[i] += x`.
+    pub fn add(&mut self, i: usize, x: T) {
+        let mut i = i + 1;
         while i <= self.n {
-            self.v[i] = T::mul(self.v[i], val);
+            self.v[i] = T::binop(self.v[i], x);
             i += Self::lsb(i);
         }
     }
-    // [1..=i]
-    pub fn pref(&self, mut i: usize) -> T {
+    ///  Sum of `a[0..i]`.
+    pub fn pref(&self, i: usize) -> T {
         let mut sum = T::ID;
-        while i != 0 {
-            sum = T::mul(sum, self.v[i]);
+        let mut i = i;
+        while i > 0 {
+            sum = T::binop(self.v[i], sum);
             i -= Self::lsb(i);
         }
         sum
     }
-    // (..]
-    pub fn range(&self, l: usize, r: usize) -> T
+    /// Sum of `a[l..r]`.
+    pub fn sum(&self, r: Range<usize>) -> T
     where
         T: Group<M>,
     {
-        T::mul(self.pref(r), T::inv(self.pref(l)))
+        let Range { start: l, end: r } = r;
+        T::binop(T::inv(self.pref(l)), self.pref(r))
     }
-
+    /// Warning: correct only when convincing pref sorted.
+    ///
+    /// `res := a[0..res] < x` still. i.e. imply `a[0..=res] >= x` or `res = n`.
+    ///
+    /// # Time complexity
+    ///
+    /// *O*(log*n*).
+    pub fn binary_search(&self, x: T) -> usize
+    where
+        T: PartialOrd,
+    {
+        let mut p = 1;
+        while p << 1 <= self.n {
+            p <<= 1;
+        }
+        let mut res = 0;
+        let mut sum = T::ID;
+        while p > 0 {
+            if res + p <= self.n && T::binop(sum, self.v[res + p]) < x {
+                sum = T::binop(sum, self.v[res + p]);
+                res += p;
+            }
+            p >>= 1;
+        }
+        res
+    }
     #[inline]
     fn lsb(i: usize) -> usize {
         1 << i.trailing_zeros()
     }
 }
-
 #[cfg(test)]
-#[allow(unused_imports)]
-mod test {
-    use super::*;
-    use crate::algebra::*;
-    #[test]
-    fn test_basic() {
-        let mut fen = Fenwick::<i32, Add>::new(100);
-        fen.add(3, 10);
-        fen.add(5, 20);
-        fen.add(9, 33);
-        assert_eq!(fen.pref(4), 10);
-        assert_eq!(fen.pref(5), 30);
-        assert_eq!(fen.pref(10), 63);
-        assert_eq!(fen.range(4, 9), 53);
-        assert_eq!(fen.range(5, 9), 33); //note(]
-    }
-    #[test]
-    fn test_max() {
-        let mut fen = Fenwick::<i64, Max>::new(100);
-        fen.add(5, 100);
-        fen.add(10, 10);
-        assert_eq!(fen.pref(10), 100);
-        fen.add(20, 200);
-        assert_eq!(fen.pref(20), 200);
-        assert_eq!(fen.pref(5), 100);
-    }
-    #[test]
-    #[should_panic]
-    fn test_zero() {
-        let mut fen = Fenwick::<i32, Add>::new(100);
-        fen.add(0, 100);
-    }
-}
+mod tests;

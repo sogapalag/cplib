@@ -1,7 +1,10 @@
 use super::*;
 
+/// A empty struct for trait generic.
 pub struct Xor;
+/// A empty struct for trait generic.
 pub struct Or;
+/// A empty struct for trait generic.
 pub struct And;
 
 macro_rules! group_xor {
