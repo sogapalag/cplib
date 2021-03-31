@@ -1,1 +1,3 @@
-pub mod rng;
+mod rng;
+
+pub use rng::Rng;

@@ -12,6 +12,9 @@ pub trait Monoid<T> {
 pub trait Group<T>: Monoid<T> {
     fn inv(x: Self) -> Self;
 }
+pub trait Power<T> {
+    fn pow(x: Self, n: usize) -> Self;
+}
 
 macro_rules! monoid {
     (impl $a:ident for $t:ty, $e:expr, |$x:ident, $y:ident| $b:expr) => {
@@ -36,10 +39,22 @@ macro_rules! group {
         }
     };
 }
+
+macro_rules! power {
+    (impl $a:ident for $t:ty, |$x:ident, $n:ident| $b:expr) => {
+        impl Power<$a> for $t {
+            #[inline]
+            fn pow($x: Self, $n: usize) -> Self {
+                $b
+            }
+        }
+    };
+}
+
 mod add;
 mod bit;
 mod cmp;
 
-pub use add::Add;
-pub use bit::{And, Or, Xor};
-pub use cmp::{Max, Min};
+pub use self::add::Add;
+pub use self::bit::{And, Or, Xor};
+pub use self::cmp::{Max, Min};

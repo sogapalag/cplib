@@ -1,11 +1,13 @@
-use crate::algebra::{Group, Monoid};
 use std::marker::PhantomData;
 use std::ops::Range;
+
+use crate::algebra::{Group, Monoid};
 
 /// A generalized version Fenwick Tree, also called Binary Indexed Tree(BIT).
 ///
 /// API is 0-based, while inner implementation is 1-based.
 /// You can use it as having array `a[0..n]`.
+/// Check [design pattern](https://sogapalag.github.io/2021/03/30/Algebraic-Structure-Generic-and-Design-Pattern-of-Rust/) for more detail.
 #[derive(Clone, Debug)]
 pub struct Fenwick<T, M> {
     n: usize,
@@ -25,21 +27,39 @@ where
             _m: PhantomData,
         }
     }
+    /// *O*(*n*) build from initials.
+    pub fn from(a: &[T]) -> Self {
+        let n = a.len();
+        let mut v = Vec::with_capacity(n + 1);
+        v.push(T::ID);
+        v.extend(a);
+        for i in 1..=n {
+            let k = i + lsb(i);
+            if k <= n {
+                v[k] = T::binop(v[i], v[k]);
+            }
+        }
+        Self {
+            n,
+            v,
+            _m: PhantomData,
+        }
+    }
     /// Behave as `a[i] += x`.
     pub fn add(&mut self, i: usize, x: T) {
         let mut i = i + 1;
         while i <= self.n {
             self.v[i] = T::binop(self.v[i], x);
-            i += Self::lsb(i);
+            i += lsb(i);
         }
     }
     ///  Sum of `a[0..i]`.
-    pub fn pref(&self, i: usize) -> T {
+    pub fn prefix(&self, i: usize) -> T {
         let mut sum = T::ID;
         let mut i = i;
         while i > 0 {
             sum = T::binop(self.v[i], sum);
-            i -= Self::lsb(i);
+            i -= lsb(i);
         }
         sum
     }
@@ -49,7 +69,7 @@ where
         T: Group<M>,
     {
         let Range { start: l, end: r } = r;
-        T::binop(T::inv(self.pref(l)), self.pref(r))
+        T::binop(T::inv(self.prefix(l)), self.prefix(r))
     }
     /// Warning: correct only when convincing pref sorted.
     ///
@@ -57,7 +77,7 @@ where
     ///
     /// # Time complexity
     ///
-    /// *O*(log*n*).
+    /// *O*(log *n*).
     pub fn binary_search(&self, x: T) -> usize
     where
         T: PartialOrd,
@@ -77,10 +97,11 @@ where
         }
         res
     }
-    #[inline]
-    fn lsb(i: usize) -> usize {
-        1 << i.trailing_zeros()
-    }
 }
+#[inline]
+fn lsb(i: usize) -> usize {
+    (i as isize & (-(i as isize))) as usize
+}
+
 #[cfg(test)]
 mod tests;

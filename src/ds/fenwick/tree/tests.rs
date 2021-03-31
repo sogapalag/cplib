@@ -7,9 +7,9 @@ fn test_basic() {
     fen.add(3, 10);
     fen.add(5, 20);
     fen.add(9, 33);
-    assert_eq!(fen.pref(4), 10);
-    assert_eq!(fen.pref(6), 30);
-    assert_eq!(fen.pref(10), 63);
+    assert_eq!(fen.prefix(4), 10);
+    assert_eq!(fen.prefix(6), 30);
+    assert_eq!(fen.prefix(10), 63);
     assert_eq!(fen.sum(4..9), 20);
     assert_eq!(fen.sum(5..10), 53);
 }

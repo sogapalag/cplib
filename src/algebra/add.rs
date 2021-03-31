@@ -14,3 +14,9 @@ group_add!(
     f32, 0.0;
     f64, 0.0;
 );
+macro_rules! power_add {
+    ($($t:ty)+) => {$(
+power!(impl Add for $t, |x, n| x * (n as $t));
+    )+};
+}
+power_add!(i64 f32 f64);
