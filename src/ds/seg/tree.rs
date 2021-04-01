@@ -82,10 +82,7 @@ where
     }
     // 2^lg space
     fn alloc(n: usize) -> (usize, Vec<T>) {
-        let mut len = 1;
-        while len < n {
-            len <<= 1;
-        }
-        (len, vec![T::ID; len << 1])
+        let n = n.next_power_of_two();
+        (n, vec![T::ID; n << 1])
     }
 }

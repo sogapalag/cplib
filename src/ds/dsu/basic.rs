@@ -16,19 +16,19 @@ impl Dsu {
         }
         self.p[x]
     }
-    // ret: success(disjoint)?
+    // ret: check(x,y)?
     pub fn join(&mut self, mut x: usize, mut y: usize) -> bool {
         x = self.find(x);
         y = self.find(y);
         if x == y {
-            return false;
+            return true;
         }
         if self.r[x] < self.r[y] {
             std::mem::swap(&mut x, &mut y);
         }
         self.p[y] = x;
         self.r[x] += self.r[y];
-        true
+        false
     }
     pub fn check(&mut self, x: usize, y: usize) -> bool {
         self.find(x) == self.find(y)

@@ -12,6 +12,7 @@
 //! ```
 //!
 //! For more detail, check `input` and `parse`.
+use std::fmt::{Display, Formatter};
 use std::io::{BufRead, BufReader, ErrorKind, Result};
 
 /// An extend trait for `BufRead`, to trim whitespace.
@@ -98,6 +99,25 @@ impl<B: TrimRead> Iterator for Trim<B> {
     }
 }
 
+// A new type wrapper for to display `Vec`.
+pub struct Veco<'a, T>(pub &'a [T]);
+impl<'a, T> Display for Veco<'a, T>
+where
+    T: Display,
+{
+    fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
+        for i in 0..self.0.len() {
+            write!(
+                f,
+                "{}{}",
+                &self.0[i],
+                if i + 1 == self.0.len() { "\n" } else { " " }
+            )?
+        }
+        Ok(())
+    }
+}
+
 /// Warning: only handled ASCII whitespace.
 #[macro_export]
 macro_rules! input {
@@ -147,4 +167,5 @@ macro_rules! parse {
     };
 }
 #[cfg(test)]
+#[allow(unused_variables)]
 mod tests;

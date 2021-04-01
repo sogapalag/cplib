@@ -24,7 +24,7 @@ impl DsuRollBack {
         x = self.find(x);
         y = self.find(y);
         if x == y {
-            return false;
+            return true;
         }
         if self.r[x] < self.r[y] {
             std::mem::swap(&mut x, &mut y);
@@ -32,7 +32,7 @@ impl DsuRollBack {
         self.h.push([x, y]);
         self.p[y] = x;
         self.r[x] += self.r[y];
-        true
+        false
     }
     pub fn roll_back(&mut self) {
         if let Some([x, y]) = self.h.pop() {
