@@ -2,6 +2,7 @@
 #![allow(dead_code)]
 #![allow(non_snake_case)]
 
+pub mod core;
 #[macro_use]
 pub mod algebra;
 #[macro_use]

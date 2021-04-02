@@ -4,18 +4,23 @@
 ///
 /// Since in most cases, commutativity is out of consideration.
 /// But you have to ensure commutativity when needed.
-pub trait Monoid<T> {
+pub trait Monoid<M> {
     const ID: Self;
     fn binop(x: Self, y: Self) -> Self;
 }
 /// If with commutativity => Abelian Group
-pub trait Group<T>: Monoid<T> {
+pub trait Group<M>: Monoid<M> {
     fn inv(x: Self) -> Self;
 }
-pub trait Power<T> {
+pub trait Power<M> {
     fn pow(x: Self, n: usize) -> Self;
 }
+pub trait Affine<U, F> {
+    fn affine(x: Self, u: U) -> Self;
+}
 
+/// Impl monoid trait.
+#[macro_export]
 macro_rules! monoid {
     (impl $a:ident for $t:ty, $e:expr, |$x:ident, $y:ident| $b:expr) => {
         impl Monoid<$a> for $t {
@@ -27,6 +32,21 @@ macro_rules! monoid {
         }
     };
 }
+#[macro_export]
+macro_rules! monoid_new {
+    (impl $a:ident for $t:ty, $e:expr, |$x:ident, $y:ident| $b:expr) => {
+        struct $a;
+        impl Monoid<$a> for $t {
+            const ID: Self = $e;
+            #[inline]
+            fn binop($x: Self, $y: Self) -> Self {
+                $b
+            }
+        }
+    };
+}
+/// Impl group trait.
+#[macro_export]
 macro_rules! group {
     (impl $a:ident for $t:ty, $e:expr,
     |$x:ident, $y:ident| $b:expr, $c:expr) => {

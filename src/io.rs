@@ -1,4 +1,4 @@
-//! Custom input.
+//! Custom input and ouput.
 //!
 //! ### Examples
 //!
