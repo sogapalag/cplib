@@ -1,5 +1,3 @@
-use super::*;
-
 #[test]
 fn first() {
     let a = [0, 3, 4, 6, 6, 7, 8, 10];
