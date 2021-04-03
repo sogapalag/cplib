@@ -15,12 +15,11 @@ pub trait Group<M>: Monoid<M> {
 pub trait Power<M> {
     fn pow(x: Self, n: usize) -> Self;
 }
+/// F(T,U)->T, used usually in `SegLazy`.
 pub trait Affine<U, F> {
     fn affine(x: Self, u: U) -> Self;
 }
 
-/// Impl monoid trait.
-#[macro_export]
 macro_rules! monoid {
     (impl $a:ident for $t:ty, $e:expr, |$x:ident, $y:ident| $b:expr) => {
         impl Monoid<$a> for $t {
@@ -32,21 +31,6 @@ macro_rules! monoid {
         }
     };
 }
-#[macro_export]
-macro_rules! monoid_new {
-    (impl $a:ident for $t:ty, $e:expr, |$x:ident, $y:ident| $b:expr) => {
-        struct $a;
-        impl Monoid<$a> for $t {
-            const ID: Self = $e;
-            #[inline]
-            fn binop($x: Self, $y: Self) -> Self {
-                $b
-            }
-        }
-    };
-}
-/// Impl group trait.
-#[macro_export]
 macro_rules! group {
     (impl $a:ident for $t:ty, $e:expr,
     |$x:ident, $y:ident| $b:expr, $c:expr) => {
@@ -65,6 +49,33 @@ macro_rules! power {
         impl Power<$a> for $t {
             #[inline]
             fn pow($x: Self, $n: usize) -> Self {
+                $b
+            }
+        }
+    };
+}
+/// Create custom monoid.
+#[macro_export]
+macro_rules! monoid_new {
+    (impl $a:ident for $t:ty, $e:expr, |$x:ident, $y:ident| $b:expr) => {
+        struct $a;
+        impl Monoid<$a> for $t {
+            const ID: Self = $e;
+            #[inline]
+            fn binop($x: Self, $y: Self) -> Self {
+                $b
+            }
+        }
+    };
+}
+/// Create custom affine.
+#[macro_export]
+macro_rules! affine_new {
+    (impl $f:ident<$u:ty> for $t:ty, |$x:ident, $y:ident| $b:expr) => {
+        struct $f;
+        impl Affine<$u, $f> for $t {
+            #[inline]
+            fn affine($x: Self, $y: $u) -> Self {
                 $b
             }
         }

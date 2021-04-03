@@ -1,3 +1,4 @@
+//! Disjoint union find, for connection task.
 mod basic;
 mod roll_back;
 

@@ -2,6 +2,10 @@ use crate::algebra::{Affine, Monoid};
 use std::marker::PhantomData;
 use std::ops::Range;
 
+/// Segment tree with lazy propagation.
+///
+/// `(T,M)` is monoid, `(U,D)` is monoid action, or endomorphism, defined by `F(T,U)->T`.
+/// `F` usually is affine. Technically should hold property `F(T*T) = F(T)*F(T)`
 pub struct SegLazy<T, U, M, D, F> {
     N: usize,
     L: usize,
@@ -12,7 +16,7 @@ pub struct SegLazy<T, U, M, D, F> {
 impl<T, U, M, D, F> SegLazy<T, U, M, D, F>
 where
     T: Monoid<M> + Copy + Affine<U, F>,
-    U: Monoid<M> + Copy + PartialEq + Eq,
+    U: Monoid<D> + Copy + PartialEq + Eq,
 {
     pub fn new(n: usize) -> Self {
         let (N, L, a, d) = Self::alloc(n);
@@ -39,15 +43,15 @@ where
         }
     }
 
-    pub fn update(&mut self, r: Range<usize>, u: U) {
+    pub fn add(&mut self, r: Range<usize>, u: U) {
         let Range { start: l, end: r } = r;
         self.__update(l, r, u, 1, 0, self.N);
     }
-    pub fn query(&mut self, r: Range<usize>) -> T {
+    pub fn sum(&mut self, r: Range<usize>) -> T {
         let Range { start: l, end: r } = r;
         self.__query(l, r, 1, 0, self.N)
     }
-    /// = `query(p..p+1)`
+    /// = `sum(p..p+1)`
     pub fn get(&mut self, p: usize) -> T {
         let i = p + self.N;
         for k in (1..=self.L).rev() {
@@ -55,7 +59,7 @@ where
         }
         self.a[i]
     }
-    /// = `query(0..n)`
+    /// = `sum(0..n)`
     pub fn all(&self) -> T {
         self.a[1]
     }
@@ -79,8 +83,7 @@ where
             return;
         }
         if l <= sl && sr <= r {
-            self.apply(i, u);
-            return;
+            return self.apply(i, u);
         }
         let sm = (sl + sr) >> 1;
         let il = i << 1;
@@ -136,3 +139,6 @@ where
         )
     }
 }
+
+#[cfg(test)]
+mod tests;

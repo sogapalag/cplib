@@ -1,3 +1,4 @@
+//! Segment tree family.
 mod lazy;
 mod tree;
 

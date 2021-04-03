@@ -1,3 +1,4 @@
+/// Classic.
 pub struct Dsu {
     p: Vec<usize>,
     r: Vec<usize>,
@@ -16,7 +17,7 @@ impl Dsu {
         }
         self.p[x]
     }
-    // ret: check(x,y)?
+    /// ret: check(x,y)
     pub fn join(&mut self, mut x: usize, mut y: usize) -> bool {
         x = self.find(x);
         y = self.find(y);

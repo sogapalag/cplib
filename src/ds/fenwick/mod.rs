@@ -3,6 +3,6 @@
 mod range;
 mod tree;
 
-pub use self::range::RangeAddPointQuery;
-pub use self::range::RangeAddRangeQuery;
+pub use self::range::RangeAddPointGet;
+pub use self::range::RangeAddRangeSum;
 pub use self::tree::Fenwick;

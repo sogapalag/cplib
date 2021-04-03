@@ -2,7 +2,7 @@ use crate::algebra::Monoid;
 use std::marker::PhantomData;
 use std::ops::Range;
 
-/// Segment Tree(iterative implementation).
+/// Segment tree(iterative implementation).
 #[derive(Clone, Debug)]
 pub struct SegTree<T, M> {
     N: usize,
