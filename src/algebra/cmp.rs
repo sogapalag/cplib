@@ -21,6 +21,7 @@ monoid_max!(
     i64, -4557430888798830400; // 0xc0c0_c0c0_c0c0_c0c0
     f32, -1.0e+35_f32;
     f64, -1.0e+300_f64;
+    usize, 0;
 );
 
 monoid_min!(
@@ -28,4 +29,5 @@ monoid_min!(
     i64, 4557430888798830399; // 0x3f3f_3f3f_3f3f_3f3f
     f32, 1.0e+35_f32;
     f64, 1.0e+300_f64;
+    usize, 4294967295; // only for special case, e.g. rmq of suffix array.
 );
