@@ -7,7 +7,7 @@ pub mod core;
 pub mod algebra;
 #[macro_use]
 pub mod io;
-pub mod prelude;
 
 pub mod ds;
+pub mod math;
 pub mod string;

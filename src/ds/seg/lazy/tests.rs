@@ -1,6 +1,6 @@
 use super::*;
 use crate::algebra::*;
-use crate::prelude::Rng;
+use crate::core::Rng;
 // verified: https://judge.yosupo.jp/problem/range_affine_range_sum
 #[test]
 fn max_add_i32() {

@@ -27,7 +27,7 @@ monoid_or!(i32 i64 u32 u64 usize);
 monoid_and!(
     i32, -1;
     i64, -1;
-    u32, u32::MAX;
-    u64, u64::MAX;
-    usize, usize::MAX;
+    u32, 0xffff_ffff;
+    u64, 0xffff_ffff_ffff_ffff; // ::MAX require 1.43, Atcoder now 1.42
+    //usize, usize::MAX;
 );

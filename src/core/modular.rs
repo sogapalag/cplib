@@ -175,8 +175,11 @@ where
 mod def_mint {
     /// Define modular number type with custom name and custom prime.
     ///
-    /// Usage:
-    /// ```rust
+    /// # Example
+    ///
+    /// ```
+    /// use cplib::define_mint;
+    ///
     /// define_mint!(m32, 1_000_000_007, Anyname);
     /// let x = m32::new(3);
     /// ```

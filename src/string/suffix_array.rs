@@ -6,10 +6,13 @@ type P = Vec<usize>;
 /// A efficient data structure to support view of suffix trie.
 ///
 /// For suffix lcp and substring task.
+///
 /// ### Time complexity
 ///
 /// Build, *O*(*n*log *n*).
 /// Query lcp, *O*(1)
+///
+/// Warning: assume size of alphabet `<=256`.
 pub struct SuffixArray {
     /// `sa`: indexes sorted by suffix string.
     pub sa: P,
@@ -35,8 +38,9 @@ impl SuffixArray {
     }
     /// Get lcp of ranked `x` and `y` suffix.
     pub fn lcp_of_rank(&self, x: usize, y: usize) -> usize {
+        assert_ne!(x, y);
         let (x, y) = if x < y { (x, y) } else { (y, x) };
-        self.st.query(x..y + 1)
+        self.st.query(x..y)
     }
 }
 

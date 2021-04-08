@@ -1,6 +1,6 @@
 use super::*;
 use crate::algebra::Add;
-use crate::prelude::Rng;
+use crate::core::Rng;
 
 #[test]
 fn add_sum() {
