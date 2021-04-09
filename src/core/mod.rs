@@ -1,5 +1,4 @@
-pub use self::rng::Rng;
-
+//! Many helpers.
 #[macro_use]
 mod internal_macros;
 #[macro_use]
@@ -9,4 +8,5 @@ mod sub_mask;
 
 pub mod modular;
 
+pub use self::rng::Rng;
 pub use self::sub_mask::subs;

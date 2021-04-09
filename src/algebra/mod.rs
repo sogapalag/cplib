@@ -15,7 +15,7 @@ pub trait Group<M>: Monoid<M> {
 pub trait Power<M> {
     fn pow(x: Self, n: usize) -> Self;
 }
-/// F(T,U)->T, used usually in `SegLazy`.
+/// `F(T,U)->T`, used usually in `SegLazy`.
 pub trait Affine<U, F> {
     fn affine(x: Self, u: U) -> Self;
 }

@@ -1,7 +1,7 @@
-/// Binary search, find first `i` s.t. `f(i)` is true.
+/// Binary search `l..r`, find first `i` s.t. `f(i)` is true.
 #[macro_export]
 macro_rules! bs_first {
-    ($l:expr , $r:expr, |$i:ident|$b:expr) => {{
+    ($l:expr , $r:expr, |$i:ident| $b:expr) => {{
         let mut l = $l;
         let mut r = $r;
         assert!(l < r);
@@ -18,10 +18,10 @@ macro_rules! bs_first {
         r
     }};
 }
-/// Binary search, find last `i` s.t. `f(i)` still true.
+/// Binary search `l..r`, find last `i` s.t. `f(i)` still true.
 #[macro_export]
 macro_rules! bs_last {
-    ($l:expr , $r:expr, |$i:ident|$b:expr) => {{
+    ($l:expr , $r:expr, |$i:ident| $b:expr) => {{
         let mut l = $l;
         let mut r = $r;
         assert!(l < r);

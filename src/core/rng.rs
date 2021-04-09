@@ -3,6 +3,7 @@ use std::collections::hash_map::DefaultHasher;
 use std::hash::{Hash, Hasher};
 use std::time::Instant;
 
+/// Random number generator.
 // https://en.wikipedia.org/wiki/Permuted_congruential_generator
 pub struct Rng(Cell<u64>);
 impl Default for Rng {

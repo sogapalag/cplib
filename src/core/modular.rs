@@ -1,4 +1,4 @@
-//! Modular number type.
+//! Modular number type support, check macro [`define_mint!`].
 #![allow(non_camel_case_types)]
 use crate::algebra::Monoid;
 use std::fmt::{Display, Formatter};
@@ -14,7 +14,7 @@ pub trait Modular<M> {
 type int = i32;
 // for mul avoid overflow cast
 type lar = i64;
-#[derive(Copy, Clone, Hash, Eq, PartialEq)]
+#[derive(Debug, Copy, Clone, Hash, Eq, PartialEq)]
 pub struct Mint<T, M>(T, PhantomData<M>);
 
 impl<T: Sized, M> Mint<T, M> {
@@ -35,6 +35,9 @@ where
             x += int::MOD;
         }
         Self::raw(x)
+    }
+    pub const fn modular() -> int {
+        int::MOD
     }
 }
 impl<M> From<int> for Mint<int, M>
@@ -178,6 +181,7 @@ mod def_mint {
     /// # Example
     ///
     /// ```
+    /// use cplib::core::modular::*;
     /// use cplib::define_mint;
     ///
     /// define_mint!(m32, 1_000_000_007, Anyname);
@@ -185,13 +189,13 @@ mod def_mint {
     /// ```
     #[macro_export]
     macro_rules! define_mint {
-        ($name:ident, $M:expr, $p:ident) => {
-            #[derive(Copy, Clone, Hash, Eq, PartialEq)]
+        ($name:ident, $prime:expr, $p:ident) => {
+            #[derive(Debug, Copy, Clone, Hash, Eq, PartialEq)]
             struct $p {}
-            impl cplib::core::modular::Modular<$p> for i32 {
-                const MOD: i32 = $M;
+            impl Modular<$p> for i32 {
+                const MOD: i32 = $prime;
             }
-            type $name = cplib::core::modular::Mint<i32, $p>;
+            type $name = Mint<i32, $p>;
         };
     }
 }

@@ -99,7 +99,7 @@ impl<B: TrimRead> Iterator for Trim<B> {
     }
 }
 
-// A new type wrapper for to display `Vec`.
+/// Wrapper for to display `Vec`.
 pub struct Veco<'a, T>(pub &'a [T]);
 impl<'a, T> Display for Veco<'a, T>
 where
