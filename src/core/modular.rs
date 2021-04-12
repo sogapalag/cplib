@@ -48,6 +48,17 @@ where
         Self::new(x)
     }
 }
+impl<M> From<Mint<int, M>> for int {
+    fn from(x: Mint<int, M>) -> Self {
+        x.0
+    }
+}
+//impl<M> Into<int> for Mint<int, M> {
+//    fn into(self) -> int {
+//        self.0
+//    }
+//}
+
 impl<M> FromStr for Mint<int, M>
 where
     int: Modular<M>,

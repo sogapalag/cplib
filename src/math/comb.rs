@@ -42,6 +42,13 @@ where
             self.fac[n] * self.ifac[n - k] * self.ifac[k]
         }
     }
+    pub fn multi_nomial(&self, ks: &[usize]) -> m32<P> {
+        let (n, x) = ks
+            .iter()
+            .map(|&k| (k, self.ifac[k]))
+            .fold((0, m32::new(1)), |(n, x), (k, y)| (n + k, x * y));
+        self.fac[n] * x
+    }
     /// Ways of `k`-len `(x,..)` s.t. `sum x = s` and `x > 0`.
     pub fn p(&self, s: usize, k: usize) -> m32<P> {
         if s == 0 || k == 0 {
