@@ -59,3 +59,4 @@ fn exgcd_i32() {
         assert_eq!(a.exgcd(b), exgcd(a, b));
     }
 }
+// excrt_cast verified by https://www.luogu.com.cn/problem/P4777

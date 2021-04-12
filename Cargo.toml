@@ -11,10 +11,7 @@ edition = "2018"
 [dev-dependencies]
 criterion = "0.3"
 
-[[bench]]
-name = "fenwick"
-harness = false
 
 [[bench]]
-name = "gcd"
+name = "sieve"
 harness = false

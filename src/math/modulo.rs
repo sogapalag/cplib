@@ -162,8 +162,8 @@ pub fn excrt(aps: &[Ap]) -> Option<Ap> {
         Some((r, m))
     })
 }
-/// Replace inner mul cast to i128, then cast back to i64 after modulo.
-/// Need to ensure lcm of all modulos under i64.
+/// Replace inner mul cast to `i128`, then cast back to `i64` after modulo.
+/// Need to ensure lcm of all modulos under `i64`.
 pub fn excrt_cast(aps: &[Ap]) -> Option<Ap> {
     aps.iter().try_fold((0, 1), |(mut r, mut m), &(a, p)| {
         let Exgcd { gcd, x, .. } = exgcd(m, p);

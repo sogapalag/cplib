@@ -7,7 +7,7 @@ macro_rules! for_up {
     ($d:ident, $n:ident in $f:expr, $b:expr) => {
         let m = $f.len();
         for $d in 1..m {
-            for $n in ($d..m).step_by($d) {
+            for $n in ($d..m).step_by($d).skip(1) {
                 $b
             }
         }
@@ -17,7 +17,7 @@ macro_rules! for_down {
     ($d:ident, $n:ident in $f:expr, $b:expr) => {
         let m = $f.len();
         for $d in (1..m).rev() {
-            for $n in ($d..m).step_by($d) {
+            for $n in ($d..m).step_by($d).skip(1) {
                 $b
             }
         }
