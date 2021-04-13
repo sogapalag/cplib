@@ -1,4 +1,4 @@
-use cplib::math::{sieve, Sieve};
+use cplib::math::Sieve;
 use criterion::{black_box, criterion_group, criterion_main, BenchmarkId, Criterion};
 
 fn phi_sieve(n: usize) {
@@ -40,34 +40,35 @@ fn run(c: &mut Criterion) {
     group.bench_with_input(BenchmarkId::new("Normal", n), n, |b, n| {
         b.iter(|| Sieve::new(black_box(*n)))
     });
-    group.bench_with_input(BenchmarkId::new("Linear", n), n, |b, n| {
-        b.iter(|| Sieve::linear(black_box(*n)))
-    });
+    //group.bench_with_input(BenchmarkId::new("Linear", n), n, |b, n| {
+    //    b.iter(|| Sieve::linear(black_box(*n)))
+    //});
     let n = &10_000_000_usize;
+    // 45ms, 35ms (step=2p)
     group.bench_with_input(BenchmarkId::new("Normal", n), n, |b, n| {
         b.iter(|| Sieve::new(black_box(*n)))
     });
-    group.bench_with_input(BenchmarkId::new("Linear", n), n, |b, n| {
-        b.iter(|| Sieve::linear(black_box(*n)))
-    });
+    //group.bench_with_input(BenchmarkId::new("Linear", n), n, |b, n| {
+    //    b.iter(|| Sieve::linear(black_box(*n)))
+    //});
 
-    // 430ms
+    // nlogn 430ms, n 165ms
     group.bench_with_input(BenchmarkId::new("phi sieve", n), n, |b, n| {
         b.iter(|| phi_sieve(black_box(*n)))
     });
-    // 418ms
-    group.bench_with_input(BenchmarkId::new("phi direct", n), n, |b, n| {
-        b.iter(|| phi_table(black_box(*n)))
-    });
+    //// 418ms
+    //group.bench_with_input(BenchmarkId::new("phi direct", n), n, |b, n| {
+    //    b.iter(|| phi_table(black_box(*n)))
+    //});
 
     // 164ms
     group.bench_with_input(BenchmarkId::new("mu sieve", n), n, |b, n| {
         b.iter(|| mu_sieve(black_box(*n)))
     });
     // 1.15s
-    group.bench_with_input(BenchmarkId::new("mu transform", n), n, |b, n| {
-        b.iter(|| mu_table(black_box(*n)))
-    });
+    //group.bench_with_input(BenchmarkId::new("mu transform", n), n, |b, n| {
+    //    b.iter(|| mu_table(black_box(*n)))
+    //});
 }
 criterion_group!(benches, run);
 criterion_main!(benches);
