@@ -1,4 +1,4 @@
-//! Query prefix sum of multitative functions.
+//! Query prefix sum of multiplicative functions.
 //!
 //! By prepare a table to boost query of larger number around ~10^9.
 //!

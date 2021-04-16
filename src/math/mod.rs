@@ -3,7 +3,7 @@ mod comb;
 mod div_block;
 pub mod divide;
 mod garner;
-pub mod modulo;
+//pub mod modulo;
 pub mod prefix_boost;
 mod sieve;
 pub mod subset;

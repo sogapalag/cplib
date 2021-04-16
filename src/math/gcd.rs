@@ -8,7 +8,7 @@ pub struct Exgcd<T> {
     pub x: T,
     pub y: T,
 }
-pub trait Modulo: Int {
+pub trait Gcd: Num {
     fn gcd(self, rhs: Self) -> Self;
     fn exgcd(self, rhs: Self) -> Exgcd<Self>
     where
@@ -23,9 +23,9 @@ pub trait Modulo: Int {
     }
 }
 
-macro_rules! impl_modulo_signed {
+macro_rules! impl_gcd_signed {
     ($($t:ty)*) => {$(
-        impl Modulo for $t {
+        impl Gcd for $t {
             // Stein's algorithm, iterative shift method.
             #[inline]
             fn gcd(self, rhs: Self) -> Self {
@@ -82,11 +82,11 @@ macro_rules! impl_modulo_signed {
         }
     )*};
 }
-impl_modulo_signed!(i32 i64 isize);
+impl_gcd_signed!(i32 i64 isize);
 
-macro_rules! impl_modulo_unsigned {
+macro_rules! impl_gcd_unsigned {
     ($($t:ty)*) => {$(
-        impl Modulo for $t {
+        impl Gcd for $t {
             // Stein's algorithm, iterative shift method.
             #[inline]
             fn gcd(self, rhs: Self) -> Self {
@@ -117,16 +117,16 @@ macro_rules! impl_modulo_unsigned {
 }
 impl_modulo_unsigned!(u32 u64 usize);
 
-pub fn gcd<T: Modulo>(a: T, b: T) -> T {
+pub fn gcd<T: Gcd>(a: T, b: T) -> T {
     a.gcd(b)
 }
-pub fn exgcd<T: Modulo + Signed>(a: T, b: T) -> Exgcd<T> {
+pub fn exgcd<T: Gcd + Signed>(a: T, b: T) -> Exgcd<T> {
     a.exgcd(b)
 }
-pub fn lcm<T: Modulo>(a: T, b: T) -> T {
+pub fn lcm<T: Gcd>(a: T, b: T) -> T {
     a.lcm(b)
 }
-pub fn gcd_lcm<T: Modulo>(a: T, b: T) -> (T, T) {
+pub fn gcd_lcm<T: Gcd>(a: T, b: T) -> (T, T) {
     a.gcd_lcm(b)
 }
 type Ap = (i64, i64); // (a_i, p_i)

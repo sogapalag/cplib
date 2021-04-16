@@ -1,4 +1,13 @@
 #![allow(unused_macros)]
+
+macro_rules! auto_trait {
+    (impl $Name:ident for $($t:ty)*) => {
+        $(
+            impl $Name for $t {}
+        )*
+    };
+}
+
 // https://doc.rust-lang.org/src/core/internal_macros.rs.html
 // implements the unary operator "op &T"
 // based on "op T" where T is expected to be `Copy`able
