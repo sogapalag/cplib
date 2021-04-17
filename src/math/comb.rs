@@ -1,5 +1,5 @@
 #![allow(non_camel_case_types)]
-use crate::core::modular::{Mint, Modular};
+use crate::core::modular::{Mint, Mod};
 
 type m32<P> = Mint<i32, P>;
 type V<P> = Vec<m32<P>>;
@@ -16,7 +16,7 @@ pub struct Comb<T> {
 
 impl<P> Comb<m32<P>>
 where
-    i32: Modular<P>,
+    i32: Mod<P>,
     P: Copy,
 {
     /// Create table `..=n`, in *O*(*n*).

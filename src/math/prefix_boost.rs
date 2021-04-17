@@ -7,12 +7,15 @@
 //! *O*(*n*^2/3) for each query, better prepare table with *n*^2/3, too.
 use std::{cell::RefCell, collections::HashMap};
 
+use crate::core::num::number::NumAssign;
+
 use super::div_block;
 /// For prefix sum of mobius function.
 pub struct PrefixMu<'mu> {
     sum: &'mu [i32],
     // Memory of larger number while recursive.
-    buf: RefCell<HashMap<usize, isize>>,
+    // Return i64, since sum(10^10) would overflow i32
+    buf: RefCell<HashMap<usize, i64>>,
 }
 
 impl<'mu> PrefixMu<'mu> {
@@ -24,16 +27,16 @@ impl<'mu> PrefixMu<'mu> {
         }
     }
     /// Sum of `mu[1..=n]`.
-    pub fn prefix(&self, n: usize) -> isize {
+    pub fn prefix(&self, n: usize) -> i64 {
         if n < self.sum.len() {
-            return self.sum[n] as isize;
+            return self.sum[n] as i64;
         }
         if self.buf.borrow().contains_key(&n) {
             self.buf.borrow()[&n]
         } else {
             let mut res = 1;
             for (v, k) in div_block(n, 2, n + 1) {
-                res -= self.prefix(v) * k as isize;
+                res -= self.prefix(v) * k as i64;
             }
             self.buf.borrow_mut().insert(n, res);
             res
@@ -54,16 +57,20 @@ impl<'a> PrefixPhi<'a> {
         Self { pm }
     }
     /// Sum of `phi[1..=n]`.
-    pub fn prefix(&self, n: usize) -> usize {
-        let mut res = 0;
+    // T = i64 ? m32.
+    pub fn prefix<T>(&self, n: usize) -> T
+    where
+        T: Copy + NumAssign + From<i64>,
+    {
+        let mut res = T::ZERO;
         let mut l = 1;
         for (v, k) in div_block(n, l, n + 1) {
-            let dmu = self.pm.prefix(l + k - 1) - self.pm.prefix(l - 1);
-            let v = v as isize;
+            let dmu = T::from(self.pm.prefix(l + k - 1) - self.pm.prefix(l - 1));
+            let v = T::from(v as i64);
             res += dmu * v * v;
             l += k;
         }
-        (res as usize + 1) / 2
+        (res + T::ONE) / T::from(2i64)
     }
 }
 

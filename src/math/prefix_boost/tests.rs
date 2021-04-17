@@ -14,7 +14,7 @@ fn prefix_mu() {
     let pm = PrefixMu::new(&mu[..m]);
 
     for i in m..=n {
-        assert_eq!(mu[i] as isize, pm.prefix(i));
+        assert_eq!(mu[i] as i64, pm.prefix(i));
     }
 }
 
@@ -34,6 +34,6 @@ fn prefix_phi() {
     let pp = PrefixPhi::new(&pm);
 
     for i in m..=n {
-        assert_eq!(phi[i], pp.prefix(i));
+        assert_eq!(phi[i], pp.prefix::<i64>(i) as _);
     }
 }
