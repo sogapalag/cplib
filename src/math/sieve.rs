@@ -1,7 +1,8 @@
+/// Exact sized sieve.
 #[derive(Debug, PartialEq, Eq)]
 pub struct Sieve {
-    primes: Vec<usize>,
-    is: Vec<bool>,
+    pub primes: Vec<usize>,
+    pub is: Vec<bool>,
 }
 
 impl Sieve {

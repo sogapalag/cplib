@@ -37,3 +37,34 @@ fn prefix_phi() {
         assert_eq!(phi[i], pp.prefix::<i64>(i) as _);
     }
 }
+
+// verified by https://judge.yosupo.jp/submission/45208
+#[test]
+fn pi() {
+    let n = 100_000;
+    let s = Sieve::new(n);
+    let t = Sieve::new(1000);
+    let pi_counter = PrimeCounter::new(&t);
+    let m = 1387;
+    assert_eq!(
+        s.is[1..=m].iter().map(|&x| x as usize).sum::<usize>(),
+        pi_counter.pi(m)
+    );
+}
+
+#[test]
+fn sum_prime() {
+    let n = 100_000;
+    let s = Sieve::new(n);
+    let t = Sieve::new(1000);
+    let pc = PrimeCounter::new(&t);
+    let m = 1387;
+    assert_eq!(
+        s.primes
+            .iter()
+            .take_while(|&p| *p <= m)
+            .map(|&x| x as usize)
+            .sum::<usize>(),
+        pc.sum::<usize>(m)
+    );
+}

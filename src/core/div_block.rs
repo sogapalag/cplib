@@ -29,7 +29,7 @@ impl Iterator for DivBlock {
 /// # Example
 ///
 /// ```
-/// use cplib::math::div_block;
+/// use cplib::core::div_block;
 ///
 /// let mut sum = 0;
 /// for (val, len) in div_block(6,1,7) {

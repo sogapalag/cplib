@@ -8,7 +8,7 @@ pub struct Exgcd<T> {
     pub x: T,
     pub y: T,
 }
-pub trait Gcd: Num {
+pub trait Gcd: Integer + Copy {
     fn gcd(self, rhs: Self) -> Self;
     fn exgcd(self, rhs: Self) -> Exgcd<Self>
     where
@@ -115,7 +115,7 @@ macro_rules! impl_gcd_unsigned {
         }
     )*};
 }
-impl_modulo_unsigned!(u32 u64 usize);
+impl_gcd_unsigned!(u32 u64 usize);
 
 pub fn gcd<T: Gcd>(a: T, b: T) -> T {
     a.gcd(b)

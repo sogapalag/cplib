@@ -6,10 +6,12 @@ pub mod identities;
 pub mod integer;
 pub mod modulo;
 pub mod number;
+mod sign;
 
 pub use self::float::Float;
 pub use self::integer::Integer;
 pub use self::number::Num;
+pub use self::sign::{Signed, Unsigned};
 
 pub fn pow<T>(b: T, mut e: usize) -> T
 where

@@ -1,15 +1,13 @@
-//! Query prefix sum of multiplicative functions.
-//!
-//! By prepare a table to boost query of larger number around ~10^9.
+//! By apply easily calculated dirichlet convolution, called du's sieve in chinese.
 //!
 //! # Time comlexity
 //!
 //! *O*(*n*^2/3) for each query, better prepare table with *n*^2/3, too.
 use std::{cell::RefCell, collections::HashMap};
 
+use crate::core::div_block;
 use crate::core::num::number::NumAssign;
 
-use super::div_block;
 /// For prefix sum of mobius function.
 pub struct PrefixMu<'mu> {
     sum: &'mu [i32],
@@ -73,6 +71,3 @@ impl<'a> PrefixPhi<'a> {
         (res + T::ONE) / T::from(2i64)
     }
 }
-
-#[cfg(test)]
-mod tests;

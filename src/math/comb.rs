@@ -4,7 +4,7 @@ use crate::core::modular::{Mint, Mod};
 type m32<P> = Mint<i32, P>;
 type V<P> = Vec<m32<P>>;
 
-/// Combinatorics table related binomial.
+/// Combinatorics table related to binomial.
 ///
 /// Build *O*(*n*), each query *O*(1).
 pub struct Comb<T> {
