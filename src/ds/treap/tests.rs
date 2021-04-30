@@ -1,3 +1,4 @@
+use super::persistent::*;
 use super::pnode::*;
 use super::*;
 use crate::algebra::*;
@@ -20,7 +21,6 @@ fn persistent() {
 #[test]
 fn insert_only() {
     let mut t = TreapPersistent::<i64, Add>::new();
-    use pnode::to_vec;
     let rng = Rng::new();
 
     let mut a = vec![vec![]; 1];
@@ -46,7 +46,6 @@ fn insert_only() {
 #[test]
 fn remove_only() {
     let mut t = TreapPersistent::<i64, Add>::new();
-    use pnode::to_vec;
     let rng = Rng::new();
 
     let mut a = vec![vec![]; 1];
@@ -75,7 +74,6 @@ fn remove_only() {
 #[test]
 fn persistent_as_normal() {
     let mut t = TreapPersistent::<i32, Add>::new();
-    use pnode::to_vec;
 
     let n = 10;
     for i in 0..n {
