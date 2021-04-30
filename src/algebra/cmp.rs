@@ -1,8 +1,10 @@
 use super::*;
 
 /// A empty struct for trait generic.
+#[derive(Debug, Clone, Copy)]
 pub struct Max;
 /// A empty struct for trait generic.
+#[derive(Debug, Clone, Copy)]
 pub struct Min;
 
 macro_rules! monoid_max {

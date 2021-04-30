@@ -114,6 +114,17 @@ impl Sieve {
         }
         mu
     }
+    /// Warning: not guarantee correct if not include all primes <sqrt(n).
+    pub fn is_prime(&self, n: usize) -> bool {
+        if n < self.is.len() {
+            self.is[n]
+        } else {
+            self.primes
+                .iter()
+                .take_while(|&&p| p < n / p)
+                .all(|&p| n % p != 0)
+        }
+    }
 }
 
 #[cfg(test)]

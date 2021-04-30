@@ -1,6 +1,7 @@
 use super::*;
 
 /// A empty struct for trait generic.
+#[derive(Debug, Clone, Copy)]
 pub struct Add;
 
 macro_rules! group_add {

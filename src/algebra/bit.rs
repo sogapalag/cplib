@@ -1,10 +1,13 @@
 use super::*;
 
 /// A empty struct for trait generic.
+#[derive(Debug, Clone, Copy)]
 pub struct Xor;
 /// A empty struct for trait generic.
+#[derive(Debug, Clone, Copy)]
 pub struct Or;
 /// A empty struct for trait generic.
+#[derive(Debug, Clone, Copy)]
 pub struct And;
 
 macro_rules! group_xor {

@@ -58,6 +58,7 @@ macro_rules! power {
 #[macro_export]
 macro_rules! monoid_new {
     (impl $a:ident for $t:ty, $e:expr, |$x:ident, $y:ident| $b:expr) => {
+        #[derive(Clone, Copy, Debug)]
         struct $a;
         impl Monoid<$a> for $t {
             const ID: Self = $e;
@@ -72,6 +73,7 @@ macro_rules! monoid_new {
 #[macro_export]
 macro_rules! affine_new {
     (impl $f:ident<$u:ty> for $t:ty, |$x:ident, $y:ident| $b:expr) => {
+        #[derive(Clone, Copy, Debug)]
         struct $f;
         impl Affine<$u, $f> for $t {
             #[inline]
