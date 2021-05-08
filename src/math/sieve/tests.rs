@@ -1,3 +1,5 @@
+use crate::core::Rng;
+
 use super::*;
 // Deprecated vanilla sieve
 //for p in 2..=n {
@@ -83,4 +85,44 @@ fn check_prefix_mu_abs() {
         sum + x
     });
     dbg!(mx);
+}
+
+#[test]
+fn factor_related() {
+    let len = 10_000;
+    let s = Sieve::new(len);
+
+    assert_eq!(s.factor(1).next(), None);
+
+    let n = 2 * 2 * 2 * 7 * 7 * 31;
+    assert!([(2, 3), (7, 2), (31, 1)]
+        .iter()
+        .map(|pe| *pe)
+        .eq(s.factor(n)));
+
+    assert_eq!(s.count_divisors(n), 4 * 3 * 2);
+
+    let d = s.divisors(n);
+    assert_eq!(
+        d,
+        [
+            1, 2, 4, 8, 7, 14, 28, 56, 49, 98, 196, 392, 31, 62, 124, 248, 217, 434, 868, 1736,
+            1519, 3038, 6076, 12152
+        ]
+    );
+
+    let n = 9_699_690;
+    assert!([2, 3, 5, 7, 11, 13, 17, 19]
+        .iter()
+        .map(|p| *p)
+        .eq(s.prime_factor(n)));
+
+    // consistent mu/phi
+    let mu = s.mu_table();
+    let phi = s.phi_table();
+    for i in 1..=len {
+        assert_eq!(mu[i], s.mu(i));
+        assert_eq!(phi[i], s.phi(i));
+        assert_eq!(phi[i], s.count_coprime(i, i));
+    }
 }
