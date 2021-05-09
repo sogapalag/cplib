@@ -1,7 +1,7 @@
 //! Mod number type support, check macro [`define_mint!`].
 #![allow(non_camel_case_types)]
 use crate::algebra::Monoid;
-use std::fmt::{Display, Formatter};
+use std::fmt::{self, Display, Formatter};
 use std::marker::PhantomData;
 use std::num::ParseIntError;
 use std::ops::{Add, AddAssign, Div, DivAssign, Mul, MulAssign, Neg, Sub, SubAssign};
@@ -13,7 +13,7 @@ pub trait Mod<M> {
     const MOD: Self;
 }
 
-#[derive(Debug, Copy, Clone, Hash, Eq, PartialEq)]
+#[derive(Copy, Clone, Hash, Eq, PartialEq)]
 pub struct Mint<T, M>(T, PhantomData<M>);
 
 impl<T: Sized, M> Mint<T, M> {
@@ -185,6 +185,15 @@ forward_binop!(impl Sub, sub for i32, sub_assign);
 forward_binop!(impl Mul, mul for i32, mul_assign);
 forward_binop!(impl Div, div for i32, div_assign);
 
+impl<T, M> fmt::Debug for Mint<T, M>
+where
+    T: fmt::Debug,
+{
+    fn fmt(&self, f: &mut Formatter<'_>) -> fmt::Result {
+        (self.0).fmt(f)
+    }
+}
+
 // Auto traits.
 impl<M: Copy> Monoid<crate::algebra::Add> for Mint<i32, M>
 where
@@ -217,7 +226,6 @@ mod def_mint {
     /// # Example
     ///
     /// ```
-    /// use cplib::core::modular::*;
     /// use cplib::define_mint;
     ///
     /// define_mint!(m32, 1_000_000_007, Anyname);
@@ -228,10 +236,10 @@ mod def_mint {
         ($name:ident, $prime:expr, $p:ident) => {
             #[derive(Debug, Copy, Clone, Hash, Eq, PartialEq)]
             struct $p {}
-            impl Mod<$p> for i32 {
+            impl $crate::core::modular::Mod<$p> for i32 {
                 const MOD: i32 = $prime;
             }
-            type $name = Mint<i32, $p>;
+            type $name = $crate::core::modular::Mint<i32, $p>;
         };
     }
 }

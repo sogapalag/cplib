@@ -1,5 +1,3 @@
-use crate::core::Rng;
-
 use super::*;
 // Deprecated vanilla sieve
 //for p in 2..=n {

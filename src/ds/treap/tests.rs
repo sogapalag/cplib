@@ -1,7 +1,6 @@
 // verified, luogu: p3165 p3391 p5055.
 use super::persistent::*;
 use super::pnode::*;
-use super::*;
 use crate::algebra::*;
 use crate::core::Rng;
 #[test]
