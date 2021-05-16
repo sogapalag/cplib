@@ -1,3 +1,4 @@
+//! Combinatorics.
 mod comb_st;
 pub mod table;
 

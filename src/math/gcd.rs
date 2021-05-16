@@ -82,7 +82,7 @@ macro_rules! impl_gcd_signed {
         }
     )*};
 }
-impl_gcd_signed!(i32 i64 isize);
+impl_gcd_signed!(i32 i64 i128 isize);
 
 macro_rules! impl_gcd_unsigned {
     ($($t:ty)*) => {$(
@@ -115,7 +115,7 @@ macro_rules! impl_gcd_unsigned {
         }
     )*};
 }
-impl_gcd_unsigned!(u32 u64 usize);
+impl_gcd_unsigned!(u32 u64 u128 usize);
 
 pub fn gcd<T: Gcd>(a: T, b: T) -> T {
     a.gcd(b)

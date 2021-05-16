@@ -9,6 +9,8 @@ use std::str::FromStr;
 
 use super::num::identities::{One, Zero};
 
+pub type M32<P> = Mint<i32, P>;
+
 pub trait Mod<M> {
     const MOD: Self;
 }

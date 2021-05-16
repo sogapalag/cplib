@@ -1,5 +1,5 @@
 use crate::core::num::Num;
-/// Combinatorics table related to binomial.
+/// Combinatorics table related to binomial and factorials.
 ///
 /// Build *O*(*n*), each query *O*(1).
 pub struct Comb<T> {

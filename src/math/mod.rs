@@ -3,6 +3,7 @@ pub mod comb;
 pub mod divide;
 mod garner;
 pub mod gcd;
+pub mod polynomial;
 pub mod prefix_boost;
 mod sieve;
 pub mod subset;

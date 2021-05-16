@@ -1,3 +1,4 @@
+//! Precalculated tables.
 use crate::core::{iter::Enhance, num::Num};
 
 type V2<T> = Vec<Vec<T>>;
@@ -51,6 +52,7 @@ where
     res
 }
 
+/// `p[i] = x.pow(i)`.
 pub fn power<T>(x: T, n: usize) -> Vec<T>
 where
     T: Num + Copy,
@@ -58,6 +60,7 @@ where
     (0..n).accum(T::ONE, |s, _| s * x).collect()
 }
 
+/// `r[i] = x * ... * (x+i-1)`.
 pub fn rising<T>(x: T, n: usize) -> Vec<T>
 where
     T: Num + Copy + From<i32>,
@@ -66,6 +69,7 @@ where
         .accum(T::ONE, |s, i| s * (x + T::from(i)))
         .collect()
 }
+/// `f[i] = x * ... * (x-i+1)`.
 pub fn falling<T>(x: T, n: usize) -> Vec<T>
 where
     T: Num + Copy + From<i32>,
