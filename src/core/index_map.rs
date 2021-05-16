@@ -59,3 +59,33 @@ impl IndexMap for SqrtIndex {
         self.nth.len()
     }
 }
+
+pub struct OrdIndex<V> {
+    a: Box<[V]>,
+}
+impl<V: Ord + Clone> OrdIndex<V> {
+    pub fn new(raw: &[V]) -> Self {
+        let mut a = vec![];
+        a.extend_from_slice(raw);
+        a.sort();
+        a.dedup();
+        Self {
+            a: a.into_boxed_slice(),
+        }
+    }
+}
+impl<V: Ord + Copy> IndexMap for OrdIndex<V> {
+    type Val = V;
+
+    fn nth(&self, n: usize) -> V {
+        self.a[n]
+    }
+
+    fn id(&self, v: V) -> usize {
+        self.a.binary_search(&v).expect("Un-contained value")
+    }
+
+    fn len(&self) -> usize {
+        self.a.len()
+    }
+}
