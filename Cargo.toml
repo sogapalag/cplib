@@ -8,10 +8,11 @@ edition = "2018"
 
 [dependencies]
 
+# test/bench only
 [dev-dependencies]
-criterion = "0.3"
 
-
+# cargo +nightly bench --bench cpbenches
 [[bench]]
-name = "sieve"
-harness = false
+name = "cpbenches"
+path = "benches/lib.rs"
+test = true

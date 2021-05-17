@@ -1,5 +1,8 @@
+#![cfg(test)]
+
 use cplib::math::Sieve;
-use criterion::{black_box, criterion_group, criterion_main, BenchmarkId, Criterion};
+
+use test::Bencher;
 
 fn phi_sieve(n: usize) {
     let s = Sieve::new(n);
@@ -33,6 +36,16 @@ fn mu_table(n: usize) -> Vec<i32> {
     b[0] = 1;
     b
 }
+#[bench]
+fn normal_1000_000(b: &mut Bencher) {
+    b.iter(|| Sieve::new(1000_000))
+}
+
+#[bench]
+fn linear_1000_000(b: &mut Bencher) {
+    b.iter(|| Sieve::linear(1000_000))
+}
+/*
 fn run(c: &mut Criterion) {
     let mut group = c.benchmark_group("Sieve");
     let n = &1000_000_usize;
@@ -70,5 +83,4 @@ fn run(c: &mut Criterion) {
     //    b.iter(|| mu_table(black_box(*n)))
     //});
 }
-criterion_group!(benches, run);
-criterion_main!(benches);
+*/

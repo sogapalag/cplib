@@ -1,6 +1,10 @@
+#![cfg(test)]
 use cplib::core::Rng;
-use cplib::math::modulo::*;
-use criterion::{black_box, criterion_group, criterion_main, BenchmarkId, Criterion};
+use cplib::math::gcd::*;
+//use criterion::{black_box, criterion_group, criterion_main, BenchmarkId, Criterion};
+
+use test::Bencher;
+
 fn gcd(a: u32, b: u32) -> u32 {
     if a < b {
         gcd(b, a)
@@ -104,7 +108,41 @@ fn exgcd_iter(n: usize) {
         a.exgcd(b);
     }
 }
+
+// 7.2 ms
+#[bench]
+fn recursive_100_000(b: &mut Bencher) {
+    b.iter(|| gcd_rec(100_000))
+}
+// 9.1 ms
+#[bench]
+fn iterative_100_000(b: &mut Bencher) {
+    b.iter(|| gcd_iter(100_000))
+}
+// 14 ms
+#[bench]
+fn recursive_u64_100_000(b: &mut Bencher) {
+    b.iter(|| gcd_rec_u64(100_000))
+}
+// 17 ms
+#[bench]
+fn iterative_u64_100_000(b: &mut Bencher) {
+    b.iter(|| gcd_iter_u64(100_000))
+}
+
+// 2.0 ms
+#[bench]
+fn exgcd_rec_100_000(b: &mut Bencher) {
+    b.iter(|| exgcd_rec(100_000))
+}
+// 1.8 ms
+#[bench]
+fn exgcd_iter_100_000(b: &mut Bencher) {
+    b.iter(|| exgcd_iter(100_000))
+}
+
 // 5ms, 5ms, 5ms, 5ms, 19ms, 17ms.
+/*
 fn run(c: &mut Criterion) {
     let mut group = c.benchmark_group("Gcd");
     let n = &1000_000_usize;
@@ -130,3 +168,4 @@ fn run(c: &mut Criterion) {
 }
 criterion_group!(benches, run);
 criterion_main!(benches);
+*/
